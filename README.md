@@ -4,9 +4,10 @@
 YOLOv4, YOLOv4-tiny Implemented in Tensorflow 2.0. 
 Convert YOLO v4, YOLOv3, YOLO tiny .weights to .pb, .tflite and trt format for tensorflow, tensorflow lite, tensorRT.
 
-Download yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT
-Download yolov4-tiny.weights file: [link](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjTu8jW4ODvAhX-gf0HHW-LAJkQFjAAegQIAxAD&url=https%3A%2F%2Fgithub.com%2FAlexeyAB%2Fdarknet%2Freleases%2Fdownload%2Fdarknet_yolo_v4_pre%2Fyolov4-tiny.weights&usg=AOvVaw0mQ6LZDwchkF37sFuwpNSi)
-Download yolov3.weights
+Download yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT <br/>
+Download yolov4-tiny.weights file: [link](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjTu8jW4ODvAhX-gf0HHW-LAJkQFjAAegQIAxAD&url=https%3A%2F%2Fgithub.com%2FAlexeyAB%2Fdarknet%2Freleases%2Fdownload%2Fdarknet_yolo_v4_pre%2Fyolov4-tiny.weights&usg=AOvVaw0mQ6LZDwchkF37sFuwpNSi) <br/>
+Download yolov3.weights file: [link](https://pjreddie.com/media/files/yolov3-tiny.weights) <br/>
+Download yolov3-tiny.weights file: [link](https://pjreddie.com/media/files/yolov3.weights) <br/>
 
 ### Installation
 
