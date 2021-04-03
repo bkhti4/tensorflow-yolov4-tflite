@@ -5,10 +5,23 @@ YOLOv4, YOLOv4-tiny Implemented in Tensorflow 2.0.
 Convert YOLO v4, YOLOv3, YOLO tiny .weights to .pb, .tflite and trt format for tensorflow, tensorflow lite, tensorRT.
 
 Download yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT
+Download yolov4-tiny.weights file: [link](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjTu8jW4ODvAhX-gf0HHW-LAJkQFjAAegQIAxAD&url=https%3A%2F%2Fgithub.com%2FAlexeyAB%2Fdarknet%2Freleases%2Fdownload%2Fdarknet_yolo_v4_pre%2Fyolov4-tiny.weights&usg=AOvVaw0mQ6LZDwchkF37sFuwpNSi)
+Download yolov3.weights
 
+### Installation
 
-### Prerequisites
-* Tensorflow 2.3.0rc0
+```bash
+python3 -m venv yolo-env
+source /path/to/venv/yolo-env/bin activate
+```
+For installation without GPU:
+```bash
+pip install requirements.txt
+```
+With GPU:
+```bash
+pip install requirements-gpu.txt
+```
 
 ### Performance
 <p align="center"><img src="data/performance.png" width="640"\></p>
@@ -23,54 +36,14 @@ python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolo
 ## yolov4-tiny
 python save_model.py --weights ./data/yolov4-tiny.weights --output ./checkpoints/yolov4-tiny-416 --input_size 416 --model yolov4 --tiny
 
-# Run demo tensorflow
-python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --image ./data/kite.jpg
+# Run demo tensorflow on video in ./data/road.mp4
+python detectvideo.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4
 
-python detect.py --weights ./checkpoints/yolov4-tiny-416 --size 416 --model yolov4 --image ./data/kite.jpg --tiny
+python detectvideo.py --weights ./checkpoints/yolov4-tiny-416 --size 416 --model yolov4 --tiny
 
 ```
-If you want to run yolov3 or yolov3-tiny change ``--model yolov3`` in command
+If you want to run yolov3 or yolov3-tiny replace ```yolov4``` with ``yolov3`` in the commands.
 
-#### Output
-
-##### Yolov4 original weight
-<p align="center"><img src="result.png" width="640"\></p>
-
-##### Yolov4 tflite int8
-<p align="center"><img src="result-int8.png" width="640"\></p>
-
-### Convert to tflite
-
-```bash
-# Save tf model for tflite converting
-python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4 --framework tflite
-
-# yolov4
-python convert_tflite.py --weights ./checkpoints/yolov4-416 --output ./checkpoints/yolov4-416.tflite
-
-# yolov4 quantize float16
-python convert_tflite.py --weights ./checkpoints/yolov4-416 --output ./checkpoints/yolov4-416-fp16.tflite --quantize_mode float16
-
-# yolov4 quantize int8
-python convert_tflite.py --weights ./checkpoints/yolov4-416 --output ./checkpoints/yolov4-416-int8.tflite --quantize_mode int8 --dataset ./coco_dataset/coco/val207.txt
-
-# Run demo tflite model
-python detect.py --weights ./checkpoints/yolov4-416.tflite --size 416 --model yolov4 --image ./data/kite.jpg --framework tflite
-```
-Yolov4 and Yolov4-tiny int8 quantization have some issues. I will try to fix that. You can try Yolov3 and Yolov3-tiny int8 quantization 
-### Convert to TensorRT
-```bash# yolov3
-python save_model.py --weights ./data/yolov3.weights --output ./checkpoints/yolov3.tf --input_size 416 --model yolov3
-python convert_trt.py --weights ./checkpoints/yolov3.tf --quantize_mode float16 --output ./checkpoints/yolov3-trt-fp16-416
-
-# yolov3-tiny
-python save_model.py --weights ./data/yolov3-tiny.weights --output ./checkpoints/yolov3-tiny.tf --input_size 416 --tiny
-python convert_trt.py --weights ./checkpoints/yolov3-tiny.tf --quantize_mode float16 --output ./checkpoints/yolov3-tiny-trt-fp16-416
-
-# yolov4
-python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4.tf --input_size 416 --model yolov4
-python convert_trt.py --weights ./checkpoints/yolov4.tf --quantize_mode float16 --output ./checkpoints/yolov4-trt-fp16-416
-```
 
 ### Evaluate on COCO 2017 Dataset
 ```bash
@@ -102,13 +75,6 @@ python main.py --output results_yolov4_tf
 ```bash
 python benchmarks.py --size 416 --model yolov4 --weights ./data/yolov4.weights
 ```
-#### TensorRT performance
- 
-| YoloV4 416 images/s |   FP32   |   FP16   |   INT8   |
-|---------------------|----------|----------|----------|
-| Batch size 1        | 55       | 116      |          |
-| Batch size 8        | 70       | 152      |          |
-
 #### Tesla P100
 
 | Detection   | 512x512 | 416x416 | 320x320 |
@@ -156,26 +122,3 @@ python train.py
 python train.py --weights ./data/yolov4.weights
 ```
 The training performance is not fully reproduced yet, so I recommended to use Alex's [Darknet](https://github.com/AlexeyAB/darknet) to train your own data, then convert the .weights to tensorflow or tflite.
-
-
-
-### TODO
-* [x] Convert YOLOv4 to TensorRT
-* [x] YOLOv4 tflite on android
-* [ ] YOLOv4 tflite on ios
-* [x] Training code
-* [x] Update scale xy
-* [ ] ciou
-* [ ] Mosaic data augmentation
-* [x] Mish activation
-* [x] yolov4 tflite version
-* [x] yolov4 in8 tflite version for mobile
-
-### References
-
-  * YOLOv4: Optimal Speed and Accuracy of Object Detection [YOLOv4](https://arxiv.org/abs/2004.10934).
-  * [darknet](https://github.com/AlexeyAB/darknet)
-  
-   My project is inspired by these previous fantastic YOLOv3 implementations:
-  * [Yolov3 tensorflow](https://github.com/YunYang1994/tensorflow-yolov3)
-  * [Yolov3 tf2](https://github.com/zzh8829/yolov3-tf2)
