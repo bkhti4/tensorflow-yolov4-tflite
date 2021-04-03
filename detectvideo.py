@@ -106,7 +106,7 @@ def main(_argv):
         curr_time = time.time()
         exec_time = curr_time - prev_time
         result = np.asarray(image)
-        info = "time: %.2f ms" %(1000*exec_time)
+        info = "FPS: %.2f" %(1 / exec_time)
         print(info)
 
         result = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
